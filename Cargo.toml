@@ -1,0 +1,29 @@
+[package]
+name = "sequoia-wasm"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0"
+console_error_panic_hook = "0.1.7"
+openpgp = {package = "sequoia-openpgp", version = "1.7.0", default-features = false, features = [
+    # Need pure-Rust crypto for wasm
+    "crypto-rust",
+    # "The cryptographic backend RustCrypto is not considered production ready."
+    "allow-experimental-crypto",
+    # "The cryptographic backend RustCrypto does not provide constant-time
+    #  operations.  This has the potential of leaking cryptographic secrets,
+    #  enable attackers to forge signatures, or cause other mayhem."
+    "allow-variable-time-crypto"
+]}
+wasm-bindgen = "0.2.78"
+web-sys = {version = "0.3.55", features = [
+    "console",
+    "Document",
+    "Element",
+    "Window",
+    "HtmlTextAreaElement",
+    "MouseEvent",
+]}
